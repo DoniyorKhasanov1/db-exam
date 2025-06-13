@@ -33,7 +33,7 @@ INSERT INTO users (fullName, phone, role_id) VALUES
 ```
 ***
 ## `groups` table creation
-```postgresql
+```sql
   CREATE TABLE groups (
                           id SERIAL PRIMARY KEY,
                           groupName VARCHAR CHECK (char_length(groupName) >= 3),
@@ -49,7 +49,7 @@ INSERT INTO groups (groupName, mentor_id) VALUES
 ```
 ***
 ## `students` table creation
-```postgresql
+```sql
 CREATE TABLE students (
                           id SERIAL PRIMARY KEY,
                           user_id INT NOT NULL,
@@ -69,7 +69,7 @@ INSERT INTO students (user_id, group_id, active) VALUES
 ```
 
 # 2. Standard VIEW
-```postgresql
+```sql
 CREATE OR REPLACE VIEW latest_10_students AS
 SELECT s.id        AS student_id,
        u.fullName  AS student_fullName,
@@ -86,7 +86,7 @@ LIMIT 10;
 SELECT * FROM latest_10_students;
 ```
 # 3. Materialized VIEW
-```postgresql
+```sql
 CREATE MATERIALIZED VIEW top_3_groups_by_students AS
 SELECT g.id        AS group_id,
        g.groupName,
@@ -103,7 +103,7 @@ REFRESH MATERIALIZED VIEW top_3_groups_by_students;
 ***
 # 4. Creating function
 
-```postgresql
+```sql
 CREATE OR REPLACE FUNCTION groupOfMentor(p_mentor_id INT)
     RETURNS TABLE
             (
@@ -134,7 +134,7 @@ $$ LANGUAGE plpgsql;
 
 # 5. Creating PROCEDURE
 
-```postgresql
+```sql
 CREATE OR REPLACE PROCEDURE studentActivator(p_group_id INT)
     LANGUAGE plpgsql
 AS
@@ -154,7 +154,7 @@ CALL studentActivator(1);
 ***
 # 6. Creating TRIGGER
 ## Creating table for logging changes
-```postgresql
+```sql
 CREATE TABLE change_logs (
     id SERIAL PRIMARY KEY,
     table_name VARCHAR NOT NULL,
@@ -167,7 +167,7 @@ CREATE TABLE change_logs (
 ```
 ## Creating Trigger function
 
-```postgresql
+```sql
 CREATE OR REPLACE FUNCTION log_update_changes()
     RETURNS TRIGGER AS
 $$
@@ -196,7 +196,7 @@ $$ LANGUAGE plpgsql;
 ```
 
 ## Trigger
-```postgresql
+```sql
 CREATE TRIGGER trg_students_update_log
     AFTER UPDATE
     ON students
