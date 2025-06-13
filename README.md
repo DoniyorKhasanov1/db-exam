@@ -1,7 +1,7 @@
 # Table creations
 
 ## `roles` table created
-```postgresql
+```sql
 CREATE TABLE roles (
                        id SERIAL PRIMARY KEY,
                        roleName VARCHAR NOT NULL UNIQUE CHECK (roleName IN ('STUDENT', 'MENTOR'))
@@ -15,7 +15,7 @@ INSERT INTO roles (roleName) VALUES
 ```
 ***
 ## `users` table creation
-```postgresql
+```sql
 CREATE TABLE users (
                        id SERIAL PRIMARY KEY,
                        fullName VARCHAR CHECK (char_length(fullName) >= 5),
